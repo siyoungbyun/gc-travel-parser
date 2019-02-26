@@ -1,0 +1,9 @@
+examples/
+
+.venv/
+.vscode/
+__pycache__/
+
+*.sqlite
+*.pyc
+.DS_Store
