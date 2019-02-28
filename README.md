@@ -1,5 +1,5 @@
-# gc-travel-parser
-[![Build Status](https://travis-ci.org/colinquirk/gc-travel-parser.svg?branch=master)](https://travis-ci.org/colinquirk/gc-travel-parser)
+# [![Build Status](https://travis-ci.org/colinquirk/gc-travel-parser.svg?branch=master)](https://travis-ci.org/colinquirk/gc-travel-parser) Graduate Council Travel Fund Parser
+
 A system for handling the review of UChicago Graduate Council Travel Fund applications
 
 To install, navigate to folder and run `pipenv install`
