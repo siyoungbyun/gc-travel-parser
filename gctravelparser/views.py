@@ -15,3 +15,13 @@ def basic():
 @app.route('/advanced')
 def advanced():
     return render_template('advanced.html')
+
+
+@app.route('/review')
+def review():
+    return render_template('review.html')
+
+
+@app.route('/feedback')
+def feedback():
+    return render_template('feedback.html')
