@@ -10,7 +10,7 @@
 <p>Before filling out our application, please review all of the Travel Fund Policies and Instructions found on our <a href="http://gc.uchicago.edu/travel-fund">website</a>.
 </p>
 
-<form>
+<form method="POST" action='/basic'>
     First name:<br>
     <input type="text" name="firstname"><br><br>
     Last name:<br>
@@ -27,14 +27,25 @@
     <input type="text" name="end-year"><br><br>
     Division:<br>
     <select name="division">
-        <option value="bsd">BSD</option>
-        <option value="psd">PSD</option>
-        <option value="ime">IME</option>
+        <option value="">  </option>
+        <option value="bsd"> BSD </option>
+        <option value="psd"> PSD </option>
+        <option value="ime"> IME </option>
+        <option value="law"> Law </option>
+        <option value="hum"> Hum </option>
+        <option value="ssa"> SSA </option>
+        <option value="ssd"> SSD </option>
+        <option value="both"> Booth </option>
+        <option value="graham"> Graham </option>
+        <option value="pritzker"> Pritzker </option>
+        <option value="harris"> Harris </option>
+        <option value="divinity"> Divinity </option>
     </select><br><br>
     Name of Event:<br>
     <input type="text" name="event-name"><br><br>
     Group Size:<br>
     <select name="group-size">
+        <option value="">  </option>
         <option value="1">1</option>
         <option value="2">2</option>
         <option value="3">3</option>
@@ -45,17 +56,15 @@
     <input type="text" name="faculty-name"><br><br>
     Faculty Email Address:<br>
     <input type="text" name="faculty-email"><br><br>
-</form>
 
-<p>
-<strong>
-Answer the prompts below to the best of your ability. 
-Please avoid using special formatting (bulletpoints, etc) or unusual characters. 
-If your answer involves a highly technical subject, address your response to an audience unfamiliar with your area of study.
-</strong>
-</p>
+    <p>
+    <strong>
+    Answer the prompts below to the best of your ability. 
+    Please avoid using special formatting (bulletpoints, etc) or unusual characters. 
+    If your answer involves a highly technical subject, address your response to an audience unfamiliar with your area of study.
+    </strong>
+    </p>
 
-<form>
     <p>
         Question 1: in 400 words or less, describe the importance of this event and why it is relevant to your academic/professional interests. 
         Additionally, please explain the nature of your participation in the event. 
@@ -84,18 +93,18 @@ If your answer involves a highly technical subject, address your response to an 
         List of Alternate Funding Sources (including those you have applied for)
     </p>
     <textarea rows="8" cols="100"></textarea>
+
+    <p>
+        Upon submission of this form, an email will be automatically sent to your faculty contact containing the link to the recommendation form. 
+        Please contact them as soon as possible to make sure they receive it and avoid confusion/delays.
+    </p>
+
+    <p>
+        By submitting this form you certify that all of the above information is correct to the best of your knowledge, and that you have read and understood the Graduate Council Travel Fund Policies and Instructions found on our website.
+    </p>
+
+    <input type="submit" value="Submit">
 </form>
-
-<p>
-    Upon submission of this form, an email will be automatically sent to your faculty contact containing the link to the recommendation form. 
-    Please contact them as soon as possible to make sure they receive it and avoid confusion/delays.
-</p>
-
-<p>
-    By submitting this form you certify that all of the above information is correct to the best of your knowledge, and that you have read and understood the Graduate Council Travel Fund Policies and Instructions found on our website.
-</p>
-
-<button>Submit</button>
 
 </body>
 <script>
