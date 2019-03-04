@@ -1,7 +1,7 @@
 from datetime import datetime
 from flask import render_template, request
 from gctravelparser import app, db
-from gctravelparser.models import Applicant, BasicApplication
+from gctravelparser.models import Applicant, BasicApplication, AdvancedApplication
 
 
 def get_applicant(form):
@@ -62,8 +62,28 @@ def basic():
     return render_template('basic.html')
 
 
-@app.route('/advanced')
+@app.route('/advanced', methods=['GET', 'POST'])
 def advanced():
+    if request.form:
+        application = AdvancedApplication(
+            submitted=datetime.now(),
+            status='submitted',
+            applicant_id=get_applicant(request.form),
+            event_name=request.form.get('event-name'),
+            travel_start=datetime.strptime(request.form.get('start-date'), '%Y-%m-%d'),
+            travel_end=datetime.strptime(request.form.get('end-date'), '%Y-%m-%d'),
+            importance=request.form.get('importance'),
+            significance=request.form.get('significance'),
+            contribution=request.form.get('contribution'),
+            expenditures=request.form.get('expenditures'),
+            alternative_funding=request.form.get('alternative-funding'),
+            faculty_name=request.form.get('faculty-name'),
+            faculty_email=request.form.get('faculty-email'),
+            presentation_type=request.form.get('presentation-type')
+        )
+        db.session.add(application)
+        db.session.commit()
+
     return render_template('advanced.html')
 
 
