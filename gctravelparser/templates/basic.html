@@ -10,7 +10,7 @@
 <p>Before filling out our application, please review all of the Travel Fund Policies and Instructions found on our <a href="http://gc.uchicago.edu/travel-fund">website</a>.
 </p>
 
-<form method="POST" action='/basic'>
+<form method="POST" action="/basic">
     First name:<br>
     <input type="text" name="firstname"><br><br>
     Last name:<br>
@@ -67,14 +67,14 @@
         How will attendance further your academic and/or professional goals? 
         What opportunities does this event provide and how will it enhance your UChicago graduate experience?
     </p>
-    <textarea rows="8" cols="100"></textarea>
+    <textarea rows="8" cols="100" name="importance"></textarea>
     <p>
         Question 2: The Graduate Council's goal is to build a strong community of scholars from across the University, from which this fund benefits. 
         In 200 words or less, describe how in the months following your attendance you will contribute to the greater UChicago community. 
         This can either tie directly into your event or can instead be general service to your fellow graduate students. 
         Perhaps you will report back to your school, write a post for a website, create educational material, review for the travel fund committee, host a departmental event? 
     </p>
-    <textarea rows="8" cols="100"></textarea>
+    <textarea rows="8" cols="100" name="contribution"></textarea>
     <p>
     <strong>
         When listing your expenses and alternate funding sources, please only use US Dollars.
@@ -84,11 +84,11 @@
         List of Proposed Expenditures (see Policies and Instructions for what is covered by Travel Fund). 
         This is not a binding list and is only to estimate how funds will be used.
     </p>
-    <textarea rows="8" cols="100"></textarea>
+    <textarea rows="8" cols="100" name="expenditures"></textarea>
     <p>
         List of Alternate Funding Sources (including those you have applied for)
     </p>
-    <textarea rows="8" cols="100"></textarea>
+    <textarea rows="8" cols="100" name="alternative-funding"></textarea>
 
     <p>
         Upon submission of this form, an email will be automatically sent to your faculty contact containing the link to the recommendation form. 
