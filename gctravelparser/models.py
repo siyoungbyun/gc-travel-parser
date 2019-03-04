@@ -29,6 +29,7 @@ class BasicApplication(db.Model):
     faculty_name = db.Column(db.String(80), nullable=False)
     faculty_email = db.Column(db.String(120), nullable=False)
     group_size = db.Column(db.Integer, nullable=False)
+    recommendation = db.Column(db.Text, nullable=True)
 
 
 class AdvancedApplication(db.Model):
@@ -49,6 +50,7 @@ class AdvancedApplication(db.Model):
     alternative_funding = db.Column(db.Text, nullable=True)
     faculty_name = db.Column(db.String(80), nullable=False)
     faculty_email = db.Column(db.String(120), nullable=False)
+    recommendation = db.Column(db.Text, nullable=True)
 
 
 class Reviewer(db.Model):
