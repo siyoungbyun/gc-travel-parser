@@ -1,6 +1,7 @@
 examples/
 
 .venv/
+.vscode/
 __pycache__/
 
 *.sqlite
