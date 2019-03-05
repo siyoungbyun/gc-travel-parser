@@ -106,18 +106,21 @@ def recommendation(uuid):
             representative=request.form.get('representative'),
             additional_comments=request.form.get('additional-comments')
         )
+
         db.session.add(recommendation)
 
-        applicant_result = Applicant.query.filter_by(uuid=uuid).all()
-        if applicant_result:
-            if len(applicant_result) == 0:
+        application_result = (BasicApplication.query.filter_by(uuid=str(uuid)).all() +
+                              AdvancedApplication.query.filter_by(uuid=str(uuid)).all())
+
+        if application_result:
+            if len(application_result) == 0:
                 # raise error
                 pass
-            elif len(applicant_result) > 1:
+            elif len(application_result) > 1:
                 # raise error
                 pass
             else:
-                applicant_result[0].status = 'reviewing'
+                application_result[0].status = 'reviewing'
 
         db.session.commit()
 
