@@ -18,10 +18,11 @@ class Reviewer(db.Model):
     reviewer_id = db.Column(db.Integer, primary_key=True)
 
 
-class BasicApplication(db.Model):
-    """ A class containing information about the basic application itself
+class Application(db.Model):
+    """ A class containing information about the application itself
     """
     application_id = db.Column(db.Integer, primary_key=True)
+    application_type = db.Column(db.String(50), nullable=False)
     submitted = db.Column(db.DateTime, nullable=False)
     status = db.Column(db.String(50), nullable=False)
     applicant_id = db.Column(db.Integer, db.ForeignKey('applicant.applicant_id'), nullable=False)
@@ -29,33 +30,14 @@ class BasicApplication(db.Model):
     travel_start = db.Column(db.DateTime, nullable=False)
     travel_end = db.Column(db.DateTime, nullable=False)
     importance = db.Column(db.Text, nullable=False)  # How often do questions change?
+    significance = db.Column(db.Text, nullable=True)
     contribution = db.Column(db.Text, nullable=False)
     expenditures = db.Column(db.Text, nullable=False)
     alternative_funding = db.Column(db.Text, nullable=True)
     faculty_name = db.Column(db.String(80), nullable=False)
     faculty_email = db.Column(db.String(120), nullable=False)
-    group_size = db.Column(db.Integer, nullable=False)
-    uuid = db.Column(db.String(36), nullable=False)
-
-
-class AdvancedApplication(db.Model):
-    """ A class containing information about the advanced application itself
-    """
-    application_id = db.Column(db.Integer, primary_key=True)
-    submitted = db.Column(db.DateTime, nullable=False)
-    status = db.Column(db.String(50), nullable=False)
-    applicant_id = db.Column(db.Integer, db.ForeignKey('applicant.applicant_id'), nullable=False)
-    event_name = db.Column(db.String(255), nullable=False)
-    presentation_type = db.Column(db.String(50), nullable=False)
-    travel_start = db.Column(db.DateTime, nullable=False)
-    travel_end = db.Column(db.DateTime, nullable=False)
-    importance = db.Column(db.Text, nullable=False)
-    significance = db.Column(db.Text, nullable=False)
-    contribution = db.Column(db.Text, nullable=False)
-    expenditures = db.Column(db.Text, nullable=False)
-    alternative_funding = db.Column(db.Text, nullable=True)
-    faculty_name = db.Column(db.String(80), nullable=False)
-    faculty_email = db.Column(db.String(120), nullable=False)
+    group_size = db.Column(db.Integer, nullable=True)
+    presentation_type = db.Column(db.String(50), nullable=True)
     uuid = db.Column(db.String(36), nullable=False)
 
 
@@ -63,6 +45,7 @@ class Recommendation(db.Model):
     """ A class containing information about a recommendation
     """
     recommendation_id = db.Column(db.Integer, primary_key=True)
+    application_id = db.Column(db.Integer, db.ForeignKey('application.application_id'), nullable=False)
     student_first_name = db.Column(db.String(60), nullable=False)
     student_last_name = db.Column(db.String(60), nullable=False)
     recommender_first_name = db.Column(db.String(60), nullable=False)
