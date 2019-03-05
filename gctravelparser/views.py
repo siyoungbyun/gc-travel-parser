@@ -1,6 +1,6 @@
 from datetime import datetime
 from uuid import uuid4
-from flask import render_template, request
+from flask import redirect, render_template, request, url_for
 from gctravelparser import app, db
 from gctravelparser.models import Applicant, Application, Recommendation
 
@@ -12,7 +12,7 @@ def get_applicant(form):
 
     if applicant_result:
         applicant_id = applicant_result.applicant_id
-        else:
+    else:
         applicant_id = add_applicant(form)
 
     return applicant_id
@@ -21,13 +21,13 @@ def get_applicant(form):
 def add_applicant(form):
     """ Adds new applicant to database
     """
-        applicant = Applicant(
+    applicant = Applicant(
         first_name=form.get("firstname"),
         last_name=form.get("lastname"),
         email=form.get("email"),
         division=form.get("division")
-        )
-        db.session.add(applicant)
+    )
+    db.session.add(applicant)
     db.session.commit()
 
     return applicant.applicant_id
@@ -43,6 +43,7 @@ def basic():
     if request.form:
         application = Application(
             submitted=datetime.now(),
+            application_type='basic',
             status='submitted',
             applicant_id=get_applicant(request.form),
             event_name=request.form.get('event-name'),
@@ -60,6 +61,8 @@ def basic():
         db.session.add(application)
         db.session.commit()
 
+        return redirect(url_for('index'))
+
     return render_template('basic.html')
 
 
@@ -68,6 +71,7 @@ def advanced():
     if request.form:
         application = Application(
             submitted=datetime.now(),
+            application_type='advanced',
             status='submitted',
             applicant_id=get_applicant(request.form),
             event_name=request.form.get('event-name'),
@@ -86,6 +90,8 @@ def advanced():
         db.session.add(application)
         db.session.commit()
 
+        return redirect(url_for('index'))
+
     return render_template('advanced.html')
 
 
@@ -93,6 +99,7 @@ def advanced():
 def recommendation(uuid):
     if request.form:
         recommendation = Recommendation(
+            application_id=Application.query.filter_by(uuid=str(uuid)).first().application_id,
             student_first_name=request.form.get('student-firstname'),
             student_last_name=request.form.get('student-lastname'),
             recommender_first_name=request.form.get('recommender-firstname'),
@@ -108,19 +115,12 @@ def recommendation(uuid):
 
         db.session.add(recommendation)
 
-        application_result = Application.query.filter_by(uuid=str(uuid)).all()
-
-        if application_result:
-            if len(application_result) == 0:
-                # raise error
-                pass
-            elif len(application_result) > 1:
-                # raise error
-                pass
-            else:
-                application_result[0].status = 'reviewing'
+        application_result = Application.query.filter_by(uuid=str(uuid)).first()
+        application_result.status = 'reviewing'
 
         db.session.commit()
+
+        return redirect(url_for('index'))
 
     return render_template('recommendation.html')
 
