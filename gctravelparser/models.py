@@ -12,6 +12,12 @@ class Applicant(db.Model):
     last_awarded = db.Column(db.DateTime, nullable=True)
 
 
+class Reviewer(db.Model):
+    """ A class containing information about the user who reviewed the application
+    """
+    reviewer_id = db.Column(db.Integer, primary_key=True)
+
+
 class BasicApplication(db.Model):
     """ A class containing information about the basic application itself
     """
@@ -30,9 +36,6 @@ class BasicApplication(db.Model):
     faculty_email = db.Column(db.String(120), nullable=False)
     group_size = db.Column(db.Integer, nullable=False)
     uuid = db.Column(db.String(36), nullable=False)
-    recommendation = db.Column(db.Text, nullable=True)
-    review_1 = db.Column(db.Text, nullable=True)
-    review_2 = db.Column(db.Text, nullable=True)
 
 
 class AdvancedApplication(db.Model):
@@ -54,12 +57,15 @@ class AdvancedApplication(db.Model):
     faculty_name = db.Column(db.String(80), nullable=False)
     faculty_email = db.Column(db.String(120), nullable=False)
     uuid = db.Column(db.String(36), nullable=False)
-    recommendation = db.Column(db.Text, nullable=True)
-    review_1 = db.Column(db.Text, nullable=True)
-    review_2 = db.Column(db.Text, nullable=True)
 
 
-class Reviewer(db.Model):
-    """ A class containing information about the user who reviewed the application
+class Recommendation(db.Model):
+    """ A class containing information about a recommendation
     """
-    reviewer_id = db.Column(db.Integer, primary_key=True)
+    recommendation_id = db.Column(db.Integer, primary_key=True)
+
+
+class Review(db.Model):
+    """ A class containing information about a recommendation
+    """
+    review_id = db.Column(db.Integer, primary_key=True)
