@@ -2,7 +2,7 @@ from datetime import datetime
 from uuid import uuid4
 from flask import render_template, request
 from gctravelparser import app, db
-from gctravelparser.models import Applicant, BasicApplication, AdvancedApplication, Recommendation
+from gctravelparser.models import Applicant, Application, Recommendation
 
 
 def get_applicant(form):
@@ -42,7 +42,7 @@ def index():
 @app.route('/basic', methods=['GET', 'POST'])
 def basic():
     if request.form:
-        application = BasicApplication(
+        application = Application(
             submitted=datetime.now(),
             status='submitted',
             applicant_id=get_applicant(request.form),
@@ -67,7 +67,7 @@ def basic():
 @app.route('/advanced', methods=['GET', 'POST'])
 def advanced():
     if request.form:
-        application = AdvancedApplication(
+        application = Application(
             submitted=datetime.now(),
             status='submitted',
             applicant_id=get_applicant(request.form),
@@ -109,8 +109,7 @@ def recommendation(uuid):
 
         db.session.add(recommendation)
 
-        application_result = (BasicApplication.query.filter_by(uuid=str(uuid)).all() +
-                              AdvancedApplication.query.filter_by(uuid=str(uuid)).all())
+        application_result = Application.query.filter_by(uuid=str(uuid)).all()
 
         if application_result:
             if len(application_result) == 0:
