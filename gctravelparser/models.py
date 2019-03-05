@@ -38,7 +38,7 @@ class Application(db.Model):
     faculty_email = db.Column(db.String(120), nullable=False)
     group_size = db.Column(db.Integer, nullable=True)
     presentation_type = db.Column(db.String(50), nullable=True)
-    uuid = db.Column(db.String(36), nullable=False)
+    uuid = db.Column(db.String(36), unique=True, nullable=False)
 
 
 class Recommendation(db.Model):
