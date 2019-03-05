@@ -82,7 +82,7 @@ def advanced():
             faculty_name=request.form.get('faculty-name'),
             faculty_email=request.form.get('faculty-email'),
             presentation_type=request.form.get('presentation-type'),
-            uuid=uuid4()
+            uuid=str(uuid4())
         )
         db.session.add(application)
         db.session.commit()
