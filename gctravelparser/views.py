@@ -8,30 +8,29 @@ from gctravelparser.models import Applicant, Application, Recommendation
 def get_applicant(form):
     """ Gets applicant info, or adds if necessary
     """
-    first_name = form.get("firstname")
-    last_name = form.get("lastname")
-    email = form.get("email")
-    division = form.get("division")
+    applicant_result = Applicant.query.filter_by(email=form.get("email")).first()
 
-    applicant_result = Applicant.query.filter_by(email=email).all()
     if applicant_result:
-        if len(applicant_result) > 1:
-            # raise error
-            pass
+        applicant_id = applicant_result.applicant_id
         else:
-            applicant_id = applicant_result[0].applicant_id
-    else:
-        applicant = Applicant(
-            first_name=first_name,
-            last_name=last_name,
-            email=email,
-            division=division
-        )
-        db.session.add(applicant)
-        db.session.flush()
-        applicant_id = applicant.applicant_id
+        applicant_id = add_applicant(form)
 
     return applicant_id
+
+
+def add_applicant(form):
+    """ Adds new applicant to database
+    """
+        applicant = Applicant(
+        first_name=form.get("firstname"),
+        last_name=form.get("lastname"),
+        email=form.get("email"),
+        division=form.get("division")
+        )
+        db.session.add(applicant)
+    db.session.commit()
+
+    return applicant.applicant_id
 
 
 @app.route('/')
