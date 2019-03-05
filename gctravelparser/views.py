@@ -56,7 +56,7 @@ def basic():
             faculty_name=request.form.get('faculty-name'),
             faculty_email=request.form.get('faculty-email'),
             group_size=request.form.get('group-size'),
-            uuid=uuid4()
+            uuid=str(uuid4())
         )
         db.session.add(application)
         db.session.commit()
