@@ -1,37 +1,36 @@
 from datetime import datetime
 from uuid import uuid4
-from flask import render_template, request
+from flask import redirect, render_template, request, url_for
 from gctravelparser import app, db
-from gctravelparser.models import Applicant, BasicApplication, AdvancedApplication, Recommendation
+from gctravelparser.models import Applicant, Application, Recommendation
 
 
 def get_applicant(form):
     """ Gets applicant info, or adds if necessary
     """
-    first_name = form.get("firstname")
-    last_name = form.get("lastname")
-    email = form.get("email")
-    division = form.get("division")
+    applicant_result = Applicant.query.filter_by(email=form.get("email")).first()
 
-    applicant_result = Applicant.query.filter_by(email=email).all()
     if applicant_result:
-        if len(applicant_result) > 1:
-            # raise error
-            pass
-        else:
-            applicant_id = applicant_result[0].applicant_id
+        applicant_id = applicant_result.applicant_id
     else:
-        applicant = Applicant(
-            first_name=first_name,
-            last_name=last_name,
-            email=email,
-            division=division
-        )
-        db.session.add(applicant)
-        db.session.flush()
-        applicant_id = applicant.applicant_id
+        applicant_id = add_applicant(form)
 
     return applicant_id
+
+
+def add_applicant(form):
+    """ Adds new applicant to database
+    """
+    applicant = Applicant(
+        first_name=form.get("firstname"),
+        last_name=form.get("lastname"),
+        email=form.get("email"),
+        division=form.get("division")
+    )
+    db.session.add(applicant)
+    db.session.commit()
+
+    return applicant.applicant_id
 
 
 @app.route('/')
@@ -42,8 +41,9 @@ def index():
 @app.route('/basic', methods=['GET', 'POST'])
 def basic():
     if request.form:
-        application = BasicApplication(
+        application = Application(
             submitted=datetime.now(),
+            application_type='basic',
             status='submitted',
             applicant_id=get_applicant(request.form),
             event_name=request.form.get('event-name'),
@@ -61,14 +61,17 @@ def basic():
         db.session.add(application)
         db.session.commit()
 
+        return redirect(url_for('index'))
+
     return render_template('basic.html')
 
 
 @app.route('/advanced', methods=['GET', 'POST'])
 def advanced():
     if request.form:
-        application = AdvancedApplication(
+        application = Application(
             submitted=datetime.now(),
+            application_type='advanced',
             status='submitted',
             applicant_id=get_applicant(request.form),
             event_name=request.form.get('event-name'),
@@ -87,6 +90,8 @@ def advanced():
         db.session.add(application)
         db.session.commit()
 
+        return redirect(url_for('index'))
+
     return render_template('advanced.html')
 
 
@@ -94,6 +99,7 @@ def advanced():
 def recommendation(uuid):
     if request.form:
         recommendation = Recommendation(
+            application_id=Application.query.filter_by(uuid=str(uuid)).first().application_id,
             student_first_name=request.form.get('student-firstname'),
             student_last_name=request.form.get('student-lastname'),
             recommender_first_name=request.form.get('recommender-firstname'),
@@ -109,20 +115,12 @@ def recommendation(uuid):
 
         db.session.add(recommendation)
 
-        application_result = (BasicApplication.query.filter_by(uuid=str(uuid)).all() +
-                              AdvancedApplication.query.filter_by(uuid=str(uuid)).all())
-
-        if application_result:
-            if len(application_result) == 0:
-                # raise error
-                pass
-            elif len(application_result) > 1:
-                # raise error
-                pass
-            else:
-                application_result[0].status = 'reviewing'
+        application_result = Application.query.filter_by(uuid=str(uuid)).first()
+        application_result.status = 'reviewing'
 
         db.session.commit()
+
+        return redirect(url_for('index'))
 
     return render_template('recommendation.html')
 
