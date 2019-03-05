@@ -63,6 +63,17 @@ class Recommendation(db.Model):
     """ A class containing information about a recommendation
     """
     recommendation_id = db.Column(db.Integer, primary_key=True)
+    student_first_name = db.Column(db.String(60), nullable=False)
+    student_last_name = db.Column(db.String(60), nullable=False)
+    recommender_first_name = db.Column(db.String(60), nullable=False)
+    recommender_last_name = db.Column(db.String(60), nullable=False)
+    recommender_email = db.Column(db.String(120), nullable=False)
+    recommender_position = db.Column(db.String(60), nullable=False)
+    relationship = db.Column(db.String(60), nullable=False)
+    merit = db.Column(db.Text, nullable=True)
+    conference = db.Column(db.Text, nullable=True)
+    representative = db.Column(db.Text, nullable=True)
+    additional_comments = db.Column(db.Text, nullable=True)
 
 
 class Review(db.Model):

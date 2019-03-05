@@ -1,7 +1,8 @@
 from datetime import datetime
+from uuid import uuid4
 from flask import render_template, request
 from gctravelparser import app, db
-from gctravelparser.models import Applicant, BasicApplication, AdvancedApplication
+from gctravelparser.models import Applicant, BasicApplication, AdvancedApplication, Recommendation
 
 
 def get_applicant(form):
@@ -54,7 +55,8 @@ def basic():
             alternative_funding=request.form.get('alternative-funding'),
             faculty_name=request.form.get('faculty-name'),
             faculty_email=request.form.get('faculty-email'),
-            group_size=request.form.get('group-size')
+            group_size=request.form.get('group-size'),
+            uuid=uuid4()
         )
         db.session.add(application)
         db.session.commit()
@@ -79,12 +81,47 @@ def advanced():
             alternative_funding=request.form.get('alternative-funding'),
             faculty_name=request.form.get('faculty-name'),
             faculty_email=request.form.get('faculty-email'),
-            presentation_type=request.form.get('presentation-type')
+            presentation_type=request.form.get('presentation-type'),
+            uuid=uuid4()
         )
         db.session.add(application)
         db.session.commit()
 
     return render_template('advanced.html')
+
+
+@app.route('/recommendation/<uuid:uuid>', methods=['GET', 'POST'])
+def recommendation(uuid):
+    if request.form:
+        recommendation = Recommendation(
+            student_first_name=request.form.get('student-firstname'),
+            student_last_name=request.form.get('student-lastname'),
+            recommender_first_name=request.form.get('recommender-firstname'),
+            recommender_last_name=request.form.get('recommender-lastname'),
+            recommender_email=request.form.get('recommender-email'),
+            recommender_position=request.form.get('recommender-position'),
+            relationship=request.form.get('relationship'),
+            merit=request.form.get('merit'),
+            conference=request.form.get('conference'),
+            representative=request.form.get('representative'),
+            additional_comments=request.form.get('additional-comments')
+        )
+        db.session.add(recommendation)
+
+        applicant_result = Applicant.query.filter_by(uuid=uuid).all()
+        if applicant_result:
+            if len(applicant_result) == 0:
+                # raise error
+                pass
+            elif len(applicant_result) > 1:
+                # raise error
+                pass
+            else:
+                applicant_result[0].status = 'reviewing'
+
+        db.session.commit()
+
+    return render_template('recommendation.html')
 
 
 @app.route('/review')
