@@ -10,6 +10,7 @@ class Applicant(db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
     division = db.Column(db.String(60), nullable=False)
     last_awarded = db.Column(db.DateTime, nullable=True)
+    application = db.relationship('Application', backref='Applicant', lazy=True)
 
 
 class Reviewer(db.Model):
