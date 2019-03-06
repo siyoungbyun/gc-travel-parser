@@ -125,9 +125,36 @@ def recommendation(uuid):
     return render_template('recommendation.html')
 
 
-@app.route('/review')
-def review():
-    return render_template('review.html')
+@app.route('/review/<review_type>/<uuid:uuid>/<int:review_number>', methods=['GET', 'POST'])
+def review(review_type, uuid, review_number):
+    if request.form:
+        return redirect(url_for('index'))
+
+    application = (
+        Application.query
+        .filter_by(uuid=str(uuid))
+        .first()
+        .join(Applicant)
+    )
+
+    if review_type == 'basic':
+        return render_template(
+            'review_basic.html',
+            first_name=application.first_name,
+            last_name=application.last_name,
+            email=application.first_name,
+            division=application.last_name,
+            group_size=application.group_size,
+            travel_start=application.travel_start,
+            travel_end=application.travel_end,
+            event_name=application.event_name,
+            importance=application.importance,
+            contribution=application.contribution,
+            expenditures=application.expenditures,
+            alternative_funding=application.alternative_funding,
+            faculty_name=application.faculty_name,
+            faculty_email=application.faculty_email
+        )
 
 
 @app.route('/feedback')
