@@ -133,17 +133,17 @@ def review(review_type, uuid, review_number):
     application = (
         Application.query
         .filter_by(uuid=str(uuid))
-        .first()
         .join(Applicant)
+        .first()
     )
 
     if review_type == 'basic':
         return render_template(
             'review_basic.html',
-            first_name=application.first_name,
-            last_name=application.last_name,
-            email=application.first_name,
-            division=application.last_name,
+            first_name=application.applicant.first_name,
+            last_name=application.applicant.last_name,
+            email=application.applicant.email,
+            division=application.applicant.division,
             group_size=application.group_size,
             travel_start=application.travel_start,
             travel_end=application.travel_end,
