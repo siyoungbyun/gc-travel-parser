@@ -45,19 +45,60 @@
         <p>
             {{importance}}
         </p>
-        Reviewer Questions (Rating 1=lowest; 5=highest):<br>
+        Reviewer Questions (Rating 1=lowest; 5=highest):<br><br>
+
         Relevance of the event clearly described?
-        <input type="text" name="event-relevance"><br><br>
+        <select name="event-relevance">
+            <option value="">  </option>
+            <option value="5"> 5 </option>
+            <option value="4"> 4 </option>
+            <option value="3"> 3 </option>
+            <option value="2"> 2 </option>
+            <option value="1"> 1 </option>
+        </select><br><br>
+
         Clear justification for participation?
-        <input type="text" name="participation-justification"><br><br>
+        <select name="participation-justification">
+            <option value="">  </option>
+            <option value="5"> 5 </option>
+            <option value="4"> 4 </option>
+            <option value="3"> 3 </option>
+            <option value="2"> 2 </option>
+            <option value="1"> 1 </option>
+        </select><br><br>
+
         Will the event provide academic/professional value?
-        <input type="text" name="academic-value"><br><br>
+        <select name="academic-value">
+            <option value="">  </option>
+            <option value="5"> 5 </option>
+            <option value="4"> 4 </option>
+            <option value="3"> 3 </option>
+            <option value="2"> 2 </option>
+            <option value="1"> 1 </option>
+        </select><br><br>
+
         Will this event enhance the student’s graduate experience?
-        <input type="text" name="graduate-experience"><br><br>
+        <select name="graduate-experience">
+            <option value="">  </option>
+            <option value="5"> 5 </option>
+            <option value="4"> 4 </option>
+            <option value="3"> 3 </option>
+            <option value="2"> 2 </option>
+            <option value="1"> 1 </option>
+        </select><br><br>
+
         Clear organization and delivery?
-        <input type="text" name="clear-organization"><br><br>
+        <select name="importance-clear-organization">
+            <option value="">  </option>
+            <option value="5"> 5 </option>
+            <option value="4"> 4 </option>
+            <option value="3"> 3 </option>
+            <option value="2"> 2 </option>
+            <option value="1"> 1 </option>
+        </select><br><br>
+
         Reviewer Comments on Question 1:<br>
-        <textarea rows="8" cols="100" name="question-1-comments"></textarea>
+        <textarea rows="8" cols="100" name="importance-comments"></textarea>
     </fieldset>
 
     <fieldset>
@@ -70,15 +111,39 @@
         <p>
             {{contribution}}
         </p>
-        Reviewer Questions (Rating 1=lowest; 5=highest):<br>
+        Reviewer Questions (Rating 1=lowest; 5=highest):<br><br>
         Clear commitment to helping the community?
-        <input type="text" name="clear-commitment"><br><br>
+        <select name="clear-commitment">
+            <option value="">  </option>
+            <option value="5"> 5 </option>
+            <option value="4"> 4 </option>
+            <option value="3"> 3 </option>
+            <option value="2"> 2 </option>
+            <option value="1"> 1 </option>
+        </select><br><br>
+
         Plan described for use of knowledge to help peers?
-        <input type="text" name="help-peers-plan"><br><br>
+        <select name="help-peers-plan">
+            <option value="">  </option>
+            <option value="5"> 5 </option>
+            <option value="4"> 4 </option>
+            <option value="3"> 3 </option>
+            <option value="2"> 2 </option>
+            <option value="1"> 1 </option>
+        </select><br><br>
+
         Clear organization and delivery?
-        <input type="text" name="clear-organization"><br><br>
+        <select name="contribution-clear-organization">
+            <option value="">  </option>
+            <option value="5"> 5 </option>
+            <option value="4"> 4 </option>
+            <option value="3"> 3 </option>
+            <option value="2"> 2 </option>
+            <option value="1"> 1 </option>
+        </select><br><br>
+
         Reviewer Comments on Question 2:<br>
-        <textarea rows="8" cols="100" name="question-2-comments"></textarea>
+        <textarea rows="8" cols="100" name="contribution-comments"></textarea>
     </fieldset>
 
     <fieldset>
@@ -101,7 +166,15 @@
         </p>
         Reviewer Questions (Rating 1=lowest; 5=highest):<br>
         Does this application financially merit funding?
-        <input type="text" name="merit-funding"><br><br>
+        <select name="merit-funding">
+            <option value="">  </option>
+            <option value="5"> 5 </option>
+            <option value="4"> 4 </option>
+            <option value="3"> 3 </option>
+            <option value="2"> 2 </option>
+            <option value="1"> 1 </option>
+        </select><br><br>
+
         Reviewer overall comments and concerns on application:<br>
         <textarea rows="8" cols="100" name="overall-comments"></textarea>
     </fieldset>
