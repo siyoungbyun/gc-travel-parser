@@ -72,6 +72,7 @@ class Review(db.Model):
     review_id = db.Column(db.Integer, primary_key=True)
     reviewer_id = db.Column(db.Integer, db.ForeignKey('reviewer.reviewer_id'), nullable=False)
     applicant_id = db.Column(db.Integer, db.ForeignKey('applicant.applicant_id'), nullable=False)
+    review_number = db.Column(db.Integer, nullable=False)
     event_relevance = db.Column(db.Integer, nullable=False)
     participation_justification = db.Column(db.Integer, nullable=False)
     competitiveness = db.Column(db.Integer, nullable=True)

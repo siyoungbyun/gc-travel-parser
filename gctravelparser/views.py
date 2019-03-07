@@ -165,6 +165,7 @@ def review(review_type, uuid, review_number):
         review = Review(
             reviewer_id=get_reviewer(request.form),
             applicant_id=application.applicant.applicant_id,
+            review_number=review_number,
             event_relevance=request.form.get('event-relevance'),
             participation_justification=request.form.get('participation-justification'),
             competitiveness=request.form.get('competitiveness'),
