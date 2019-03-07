@@ -11,12 +11,18 @@ class Applicant(db.Model):
     division = db.Column(db.String(60), nullable=False)
     last_awarded = db.Column(db.DateTime, nullable=True)
     application = db.relationship('Application', backref='applicant', lazy=True)
+    reviews = db.relationship('Review', backref='applicant', lazy=True)
 
 
 class Reviewer(db.Model):
     """ A class containing information about the user who reviewed the application
     """
     reviewer_id = db.Column(db.Integer, primary_key=True)
+    first_name = db.Column(db.String(60), nullable=False)
+    last_name = db.Column(db.String(60), nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    last_reviewed = db.Column(db.DateTime, nullable=True)
+    review = db.relationship('Review', backref='reviewer', lazy=True)
 
 
 class Application(db.Model):
@@ -61,6 +67,20 @@ class Recommendation(db.Model):
 
 
 class Review(db.Model):
-    """ A class containing information about a recommendation
+    """ A class containing information about a review
     """
     review_id = db.Column(db.Integer, primary_key=True)
+    reviewer_id = db.Column(db.Integer, db.ForeignKey('reviewer.reviewer_id'), nullable=False)
+    applicant_id = db.Column(db.Integer, db.ForeignKey('applicant.applicant_id'), nullable=False)
+    event_relevance = db.Column(db.Integer, nullable=False)
+    participation_justification = db.Column(db.Integer, nullable=False)
+    academic_value = db.Column(db.Integer, nullable=False)
+    graduate_experience = db.Column(db.Integer, nullable=False)
+    importance_clear_organization = db.Column(db.Integer, nullable=False)
+    importance_comments = db.Column(db.Text, nullable=True)
+    clear_commitment = db.Column(db.Integer, nullable=False)
+    help_peers_plan = db.Column(db.Integer, nullable=False)
+    contribution_clear_organization = db.Column(db.Integer, nullable=False)
+    contribution_comments = db.Column(db.Text, nullable=True)
+    merit_funding = db.Column(db.Integer, nullable=False)
+    overall_comments = db.Column(db.Text, nullable=True)
