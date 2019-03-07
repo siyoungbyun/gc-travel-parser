@@ -2,7 +2,7 @@ from datetime import datetime
 from uuid import uuid4
 from flask import redirect, render_template, request, url_for
 from gctravelparser import app, db
-from gctravelparser.models import Applicant, Application, Recommendation
+from gctravelparser.models import Applicant, Application, Recommendation, Review, Reviewer
 
 
 def get_applicant(form):
@@ -31,6 +31,33 @@ def add_applicant(form):
     db.session.commit()
 
     return applicant.applicant_id
+
+
+def get_reviewer(form):
+    """ Gets reviewer info, or adds if necessary
+    """
+    reviewer = Reviewer.query.filter_by(email=form.get("reviewer-email")).first()
+
+    if reviewer:
+        reviewer_id = reviewer.reviewer_id
+    else:
+        reviewer_id = add_reviewer(form)
+
+    return reviewer_id
+
+
+def add_reviewer(form):
+    """ Adds new reviewer to database
+    """
+    reviewer = Reviewer(
+        first_name=form.get("reviewer-firstname"),
+        last_name=form.get("reviewer-lastname"),
+        email=form.get("reviewer-email"),
+    )
+    db.session.add(reviewer)
+    db.session.commit()
+
+    return reviewer.reviewer_id
 
 
 @app.route('/')
@@ -125,9 +152,82 @@ def recommendation(uuid):
     return render_template('recommendation.html')
 
 
-@app.route('/review')
-def review():
-    return render_template('review.html')
+@app.route('/review/<review_type>/<uuid:uuid>/<int:review_number>', methods=['GET', 'POST'])
+def review(review_type, uuid, review_number):
+    application = (
+        Application.query
+        .filter_by(uuid=str(uuid))
+        .join(Applicant)
+        .first()
+    )
+
+    if request.form:
+        review = Review(
+            reviewer_id=get_reviewer(request.form),
+            applicant_id=application.applicant.applicant_id,
+            review_number=review_number,
+            event_relevance=request.form.get('event-relevance'),
+            participation_justification=request.form.get('participation-justification'),
+            competitiveness=request.form.get('competitiveness'),
+            academic_value=request.form.get('academic-value'),
+            graduate_experience=request.form.get('graduate-experience'),
+            importance_clear_organization=request.form.get('importance-clear-organization'),
+            importance_comments=request.form.get('importance-comments'),
+            purpose_clear=request.form.get('purpose-clear'),
+            significance_explained=request.form.get('significance-explained'),
+            larger_context=request.form.get('larger-context'),
+            clear_presentation=request.form.get('clear-presentation'),
+            significance_comments=request.form.get('significance-comments'),
+            clear_commitment=request.form.get('clear-commitment'),
+            help_peers_plan=request.form.get('help-peers-plan'),
+            contribution_clear_organization=request.form.get('contribution-clear-organization'),
+            contribution_comments=request.form.get('contribution-comments'),
+            merit_funding=request.form.get('merit-funding'),
+            overall_comments=request.form.get('overall-comments')
+        )
+        db.session.add(review)
+        db.session.commit()
+
+        return redirect(url_for('index'))
+
+    if review_type == 'basic':
+        return render_template(
+            'review_basic.html',
+            first_name=application.applicant.first_name,
+            last_name=application.applicant.last_name,
+            email=application.applicant.email,
+            division=application.applicant.division,
+            group_size=application.group_size,
+            travel_start=application.travel_start,
+            travel_end=application.travel_end,
+            event_name=application.event_name,
+            importance=application.importance,
+            contribution=application.contribution,
+            expenditures=application.expenditures,
+            alternative_funding=application.alternative_funding,
+            faculty_name=application.faculty_name,
+            faculty_email=application.faculty_email
+        )
+
+    if review_type == 'advanced':
+        return render_template(
+            'review_advanced.html',
+            first_name=application.applicant.first_name,
+            last_name=application.applicant.last_name,
+            email=application.applicant.email,
+            division=application.applicant.division,
+            presentation_type=application.presentation_type,
+            travel_start=application.travel_start,
+            travel_end=application.travel_end,
+            event_name=application.event_name,
+            importance=application.importance,
+            significance=application.significance,
+            contribution=application.contribution,
+            expenditures=application.expenditures,
+            alternative_funding=application.alternative_funding,
+            faculty_name=application.faculty_name,
+            faculty_email=application.faculty_email
+        )
 
 
 @app.route('/feedback')
