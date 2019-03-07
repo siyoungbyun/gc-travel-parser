@@ -209,6 +209,26 @@ def review(review_type, uuid, review_number):
             faculty_email=application.faculty_email
         )
 
+    if review_type == 'advanced':
+        return render_template(
+            'review_advanced.html',
+            first_name=application.applicant.first_name,
+            last_name=application.applicant.last_name,
+            email=application.applicant.email,
+            division=application.applicant.division,
+            presentation_type=application.presentation_type,
+            travel_start=application.travel_start,
+            travel_end=application.travel_end,
+            event_name=application.event_name,
+            importance=application.importance,
+            significance=application.significance,
+            contribution=application.contribution,
+            expenditures=application.expenditures,
+            alternative_funding=application.alternative_funding,
+            faculty_name=application.faculty_name,
+            faculty_email=application.faculty_email
+        )
+
 
 @app.route('/feedback')
 def feedback():
