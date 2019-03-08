@@ -25,6 +25,21 @@ class Reviewer(db.Model):
     review = db.relationship('Review', backref='reviewer', lazy=True)
 
 
+class Questions(db.Model):
+    """ A class containing information about the questions to be asked
+    """
+    question_id = db.Column(db.Integer, primary_key=True)
+    is_active = db.Column(db.Boolean, nullable=False)
+    in_basic_application = db.Column(db.Boolean, nullable=False)
+    in_advanced_application = db.Column(db.Boolean, nullable=False)
+    slug = db.Column(db.String(100), nullable=False)
+    text = db.Column(db.Text, nullable=False)
+    word_limit = db.Column(db.Integer, nullable=True)
+    version_major = db.Column(db.Integer, nullable=False)
+    version_minor = db.Column(db.Integer, nullable=False)
+    version_patch = db.Column(db.Integer, nullable=False)
+
+
 class Application(db.Model):
     """ A class containing information about the application itself
     """
@@ -36,7 +51,7 @@ class Application(db.Model):
     event_name = db.Column(db.String(255), nullable=False)
     travel_start = db.Column(db.DateTime, nullable=False)
     travel_end = db.Column(db.DateTime, nullable=False)
-    importance = db.Column(db.Text, nullable=False)  # How often do questions change?
+    importance = db.Column(db.Text, nullable=False)
     significance = db.Column(db.Text, nullable=True)
     contribution = db.Column(db.Text, nullable=False)
     expenditures = db.Column(db.Text, nullable=False)
